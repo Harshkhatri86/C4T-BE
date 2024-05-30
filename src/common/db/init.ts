@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 require("dotenv").config();
 
-const sequelizeConnection = new Sequelize(
+export const sequelizeConnection = new Sequelize(
   process.env.DB_NAME || "CodeforTomorrow",
   process.env.DB_ROOT || "root",
   process.env.DB_PASS,
