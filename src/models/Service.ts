@@ -1,13 +1,14 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 import { sequelizeConnection } from "../common/db/init";
 import Category from "./Category";
+import PriceOption from "./PriceOption";
 
 interface ServiceAttributes {
   servicename: string;
   id: string;
   categoryId: string;
   type: string;
-  priceOption: string;
+  priceOptions: string;
 }
 
 class Service extends Model<ServiceAttributes> implements ServiceAttributes {
@@ -15,7 +16,7 @@ class Service extends Model<ServiceAttributes> implements ServiceAttributes {
   public id!: string;
   public categoryId!: string;
   public type!: string;
-  public priceOption!: string;
+  public priceOptions!: string;
 
 
   static associate(models: any) {
@@ -24,7 +25,10 @@ class Service extends Model<ServiceAttributes> implements ServiceAttributes {
         as : "category"
     })
     Service.hasMany(models.PriceOption , {
-        onDelete : 'CASCADE'
+        onDelete : 'CASCADE', 
+    })
+    Service.belongsTo(models.PriceOption , {
+        foreignKey : "priceOptions"
     })
   }
 }
@@ -45,9 +49,14 @@ Service.init(
       type: DataTypes.CHAR(10),
       allowNull: false,
     },
-    priceOption: {
-      type: DataTypes.INTEGER,
+    priceOptions: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4 , 
       allowNull: false,
+      references : {
+        model : PriceOption , 
+        key : "id"
+      }
     },
     categoryId: {
       type: DataTypes.UUID,
@@ -65,5 +74,7 @@ Service.init(
     timestamps: true,
   }
 );
+
+// Service.hasMany(PriceOption , {foreignKey : "serviceId"})
 
 export default Service;

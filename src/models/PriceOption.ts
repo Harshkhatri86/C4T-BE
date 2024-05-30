@@ -20,10 +20,10 @@ class PriceOption
   public type!: string;
   public serviceId!: string;
   static associate(models: any) {
-    PriceOption.belongsTo(models.Service , {
-        foreignKey : "serviceId" , 
-        as : "serviceId"
-    })
+    // PriceOption.belongsTo(models.Service , {
+    //     foreignKey : "serviceId" , 
+    //     as : "serviceId"
+    // })
   }
 }
 
@@ -64,5 +64,8 @@ PriceOption.init(
     timestamps: true,
   }
 );
+
+PriceOption.belongsTo(Service  , {foreignKey : "serviceId" , as :"Services"})
+PriceOption.hasMany(Service , {foreignKey : "priceOptions" , as :"Prices"})
 
 export default PriceOption;

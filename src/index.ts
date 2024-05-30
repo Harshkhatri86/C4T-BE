@@ -17,7 +17,7 @@ app.get("/health"  , (req : Request, res : Response) =>{
 })
 
 app.use("/v1", routers)
-app.use(notFoundMiddleware) ; 
+// app.use(notFoundMiddleware) ; 
 
 const bootStrap = async () =>{
 
