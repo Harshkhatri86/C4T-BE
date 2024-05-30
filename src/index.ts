@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express' ; 
 import bodyParser from 'body-parser'; 
 import cors from 'cors' ; 
-
+import { dbConnect } from './common/db/init';
+require('dotenv').config()
 const app = express() ; 
 
 app.use(cors()) ; 
@@ -14,6 +15,9 @@ app.get("/health"  , (req : Request, res : Response) =>{
 })
 
 const bootStrap = async () =>{
+
+    await dbConnect() ; 
+
     const PORT = process.env.PORT ? parseInt(process.env.PORT) : 5000 ; 
     const bindAddress = process.env.BIND_ADDRESS ? process.env.BIND_ADDRESS : '0.0.0.0'
     app.listen(PORT , bindAddress , () =>{
