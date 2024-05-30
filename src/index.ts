@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express' ;
 import bodyParser from 'body-parser'; 
 import cors from 'cors' ; 
 import { dbConnect } from './common/db/init';
+import routers from './route'
+import { notFoundMiddleware } from './middleware/notFoundMiddleware';
 require('dotenv').config()
 const app = express() ; 
 
@@ -11,8 +13,11 @@ app.use(bodyParser.json()) ;
 app.use(express.json()) ; 
 
 app.get("/health"  , (req : Request, res : Response) =>{
-    res.status(200).json({message : "Serve is running"})
+    res.status(200).json({message : "Server is running"})
 })
+
+app.use("/v1", routers)
+app.use(notFoundMiddleware) ; 
 
 const bootStrap = async () =>{
 
